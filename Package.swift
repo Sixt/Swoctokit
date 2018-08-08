@@ -2,18 +2,18 @@
 import PackageDescription
 
 let package = Package(
-    name: "Swack",
+    name: "Swoctokit",
     products: [
         .library(
-            name: "Swack",
-            targets: ["Swack"]),
+            name: "Swoctokit",
+            targets: ["Swoctokit"]),
     ],
     dependencies: [
         .package(url: "https://github.com/vapor/vapor.git", from: "3.0.0"),
     ],
     targets: [
-        .target(name: "Swack", dependencies: ["Vapor"]),
-        .testTarget(name: "SwackTests", dependencies: ["Swack"])
+        .target(name: "Swoctokit", dependencies: ["Vapor"]),
+        .testTarget(name: "SwoctokitTests", dependencies: ["Swoctokit"])
     ]
 )
 
