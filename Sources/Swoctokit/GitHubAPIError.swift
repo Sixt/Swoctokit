@@ -12,6 +12,7 @@ public struct GitHubApiError: Decodable {
     public let resource: String
     public let field: String
     public let code: String
+    public let message: String?
 
 }
 
