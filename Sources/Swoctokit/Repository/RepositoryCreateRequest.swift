@@ -5,9 +5,9 @@
 //  Created by franz busch on 08.08.18.
 //
 
-import Vapor
+import Foundation
 
-struct RepositoryCreateRequest: Content {
+struct RepositoryCreateRequest: Encodable {
 
     let name: String
     let description: String

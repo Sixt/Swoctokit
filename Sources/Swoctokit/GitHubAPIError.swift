@@ -5,19 +5,19 @@
 //  Created by franz busch on 08.08.18.
 //
 
-import Vapor
+import Foundation
 
-struct GitHubApiError: Content {
+public struct GitHubApiError: Decodable {
 
-    let resource: String
-    let field: String
-    let code: String
+    public let resource: String
+    public let field: String
+    public let code: String
 
 }
 
-struct GitHubAPIErrorResponse: Content, Error {
+public struct GitHubAPIErrorResponse: Decodable, Error {
 
-    let message: String
-    let errors: [GitHubApiError]
+    public let message: String
+    public let errors: [GitHubApiError]
 
 }
