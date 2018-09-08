@@ -20,21 +20,11 @@ public class Swoctokit {
     public let repository: RepositoryService
     public let teams: TeamsService
 
-    public init(token: String) throws {
-        let env = try Environment.detect()
-        let config = Config.default()
-        var services = Services.default()
-        var middlewares = MiddlewareConfig()
-        middlewares.use(ErrorMiddleware.self)
-        services.register(middlewares)
-        let app = try Application(config: config, environment: env, services: services)
-
-        self.application = app
+    public init(token: String, application: Application) throws {
+        self.application = application
         self.client = try application.client()
         self.repository = RepositoryService(token: token, client: client)
         self.teams = TeamsService(token: token, client: client)
     }
-
-
 
 }
