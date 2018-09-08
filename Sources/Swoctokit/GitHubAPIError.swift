@@ -23,6 +23,6 @@ public struct GitHubApiError: Decodable {
 public struct GitHubAPIErrorResponse: Decodable, Error {
 
     public let message: String
-    public let errors: [GitHubApiError]
+    public let errors: [GitHubApiError]?
 
 }
