@@ -1,9 +1,13 @@
+//===----------------------------------------------------------------------===//
 //
-//  Swoctokit.swift
-//  App
+// This source file is part of the Swoctokit open source project
 //
-//  Created by franz busch on 14.05.18.
+// Copyright (c) 2018 e-Sixt
+// Licensed under MIT
 //
+// See LICENSE.txt for license information
+//
+//===----------------------------------------------------------------------===//
 
 import Vapor
 import Foundation
@@ -14,6 +18,7 @@ public class Swoctokit {
     private let client: Client
 
     public let repository: RepositoryService
+    public let teams: TeamsService
 
     public init(token: String) throws {
         let env = try Environment.detect()
@@ -27,6 +32,7 @@ public class Swoctokit {
         self.application = app
         self.client = try application.client()
         self.repository = RepositoryService(token: token, client: client)
+        self.teams = TeamsService(token: token, client: client)
     }
 
 

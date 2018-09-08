@@ -11,7 +11,7 @@
 
 import Vapor
 
-public class RepositoryService {
+public class TeamsService {
 
     private let token: String
     private let client: Client
@@ -21,9 +21,10 @@ public class RepositoryService {
         self.client = client
     }
 
-    public func createRepository(organization: String, name: String, description: String, isPrivate: Bool) -> Future<Response> {
-        let request = RepositoryCreateRequest(name: name, description: description, private: isPrivate)
-        return client.post("\(Constants.GitHubBaseURL)/orgs/\(organization)/repos", headers: HTTPHeaders([("Authorization", "token \(token)")])) { postRequest in
+    public func addOrUpdateRepository(organization: String, teamId: String, repository: String, permission: RepositoryPermission? = nil) -> Future<Response> {
+        let request = TeamsAddOrUpdateRepositoryRequest(permission: permission)
+        let url = "\(Constants.GitHubBaseURL)/teams/\(teamId)/repos/\(organization)/\(repository)"
+        return client.put(url, headers: HTTPHeaders([("Authorization", "token \(token)")])) { postRequest in
             try postRequest.content.encode(json: request)
         }.flatMap { response in
             if let error = try? response.content.syncDecode(GitHubAPIErrorResponse.self) {
@@ -32,7 +33,6 @@ public class RepositoryService {
 
             return response.eventLoop.future(response)
         }
-
     }
 
 }

@@ -11,8 +11,14 @@
 
 import Foundation
 
-enum Constants {
+public enum RepositoryPermission: String, Encodable {
+    case pull
+    case push
+    case admin
+}
 
-    static let GitHubBaseURL = URL(string: "https://api.github.com")!
+struct TeamsAddOrUpdateRepositoryRequest: Encodable {
+
+    let permission: RepositoryPermission?
 
 }
