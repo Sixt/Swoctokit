@@ -20,5 +20,13 @@ public struct Contents: Decodable {
     public let path: String
     public let sha: String
     public let url: String
+    public let content: String
+
+    public var decodedContent: String? {
+        guard let data = Data(base64Encoded: content) else {
+            return nil
+        }
+        return String(data: data, encoding: .utf8)
+    }
 
 }
