@@ -21,8 +21,12 @@ public class RepositoryContentsService {
         self.client = client
     }
 
-    public func getContents(organization: String, repository: String, path: String) -> Future<Contents> {
-        let url = "\(Constants.GitHubBaseURL)/repos/\(organization)/\(repository)/contents/\(path)"
+    public func getContents(organization: String, repository: String, path: String, ref: String? = nil) -> Future<Contents> {
+        var url = "\(Constants.GitHubBaseURL)/repos/\(organization)/\(repository)/contents/\(path)"
+        if let ref = ref {
+            url = "\(url)?=\(ref)"
+        }
+
         return client.get(url, headers: HTTPHeaders([("Authorization", "token \(token)")])).flatMap { response in
             if let error = try? response.content.syncDecode(GitHubAPIErrorResponse.self) {
                 throw error
