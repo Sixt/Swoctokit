@@ -24,7 +24,7 @@ public class RepositoryContentsService {
     public func getContents(organization: String, repository: String, path: String, ref: String? = nil) -> Future<Contents> {
         var url = "\(Constants.GitHubBaseURL)/repos/\(organization)/\(repository)/contents/\(path)"
         if let ref = ref {
-            url = "\(url)?=\(ref)"
+            url = "\(url)?ref=\(ref)"
         }
 
         return client.get(url, headers: HTTPHeaders([("Authorization", "token \(token)")])).flatMap { response in
