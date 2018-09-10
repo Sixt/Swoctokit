@@ -18,6 +18,7 @@ public class Swoctokit {
     private let client: Client
 
     public let repository: RepositoryService
+    public let contents: RepositoryContentsService
     public let teams: TeamsService
 
     public init(token: String, application: Application) throws {
@@ -25,6 +26,7 @@ public class Swoctokit {
         self.client = try application.client()
         self.repository = RepositoryService(token: token, client: client)
         self.teams = TeamsService(token: token, client: client)
+        self.contents = RepositoryContentsService(token: token, client: client)
     }
 
 }
