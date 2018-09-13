@@ -11,9 +11,17 @@
 
 import Vapor
 
+public protocol PullRequestEventListener: class {
+
+    func pullRequestEventReceived(_ pullRequestEvent: PullRequestEvent)
+
+}
+
 public class SwoctokitWebhookClient {
 
     private let application: Application
+
+    private var pullRequestEventListeners = [PullRequestEventListener]()
 
 
     public init(_ application: Application) throws {
@@ -24,7 +32,30 @@ public class SwoctokitWebhookClient {
     private func setupRoutes() throws {
         let router = try application.make(Router.self)
 
-        try WebhookController().boot(router: router)
+        let webhookController = WebhookController()
+        webhookController.delegate = self
+        try webhookController.boot(router: router)
+    }
+
+    public func addPullRequestEventListener(_ listener: PullRequestEventListener) {
+        pullRequestEventListeners.append(listener)
+    }
+
+}
+
+extension SwoctokitWebhookClient: WebhookControllerDelegate {
+
+    func didReceive(event: WebhookEvent) {
+        switch event {
+        case let event as PullRequestEvent:
+            pullRequestEventReceived(event)
+        default:
+            break
+        }
+    }
+
+    func pullRequestEventReceived(_ event: PullRequestEvent) {
+        pullRequestEventListeners.forEach { $0.pullRequestEventReceived(event) }
     }
 
 }

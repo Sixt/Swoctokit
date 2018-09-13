@@ -11,6 +11,6 @@
 
 import Foundation
 
-public enum EventTypes: String {
-    case pullRequest
+public enum EventType: String {
+    case pullRequest = "pull_request"
 }
