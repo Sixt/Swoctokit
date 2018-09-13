@@ -24,9 +24,9 @@ public struct PullRequest: Decodable {
     public struct Head: Decodable {
 
         public struct Repo: Decodable {
-            let id: Int
-            let name: String
-            let fullName: String
+            public let id: Int
+            public let name: String
+            public let fullName: String
 
             private enum CodingKeys: String, CodingKey {
                 case id
