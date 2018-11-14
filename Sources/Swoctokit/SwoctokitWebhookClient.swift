@@ -23,12 +23,19 @@ public protocol CommitCommentEventListener: class {
 
 }
 
+public protocol IssueCommentEventListener: AnyObject {
+
+    func issueCommentEventReceived(_ event: IssueCommentEvent)
+
+}
+
 public class SwoctokitWebhookClient {
 
     private let application: Application
 
     private var pullRequestEventListeners = [PullRequestEventListener]()
     private var commitCommentEventListeners = [CommitCommentEventListener]()
+    private var issueCommentEventListeners = [IssueCommentEventListener]()
 
     public init(_ application: Application) throws {
         self.application = application
@@ -51,6 +58,10 @@ public class SwoctokitWebhookClient {
         commitCommentEventListeners.append(listener)
     }
 
+    public func addIssueCommentEventListener(_ listener: IssueCommentEventListener) {
+        issueCommentEventListeners.append(listener)
+    }
+
 }
 
 extension SwoctokitWebhookClient: WebhookControllerDelegate {
@@ -61,6 +72,8 @@ extension SwoctokitWebhookClient: WebhookControllerDelegate {
             pullRequestEventReceived(event)
         case let event as CommitCommentEvent:
             commitCommentEventReceived(event)
+        case let event as IssueCommentEvent:
+            isuueCommentEventReceived(event)
         default:
             break
         }
@@ -72,6 +85,10 @@ extension SwoctokitWebhookClient: WebhookControllerDelegate {
 
     func commitCommentEventReceived(_ event: CommitCommentEvent) {
         commitCommentEventListeners.forEach { $0.commitCommentEventReceived(event) }
+    }
+
+    func isuueCommentEventReceived(_ event: IssueCommentEvent) {
+        issueCommentEventListeners.forEach { $0.issueCommentEventReceived(event) }
     }
 
 }

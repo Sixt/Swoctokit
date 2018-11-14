@@ -50,6 +50,10 @@ final class WebhookController: RouteCollection {
             if let commitCommentEvent = try? req.content.syncDecode(CommitCommentEvent.self) {
                 delegate?.didReceive(event: commitCommentEvent)
             }
+        case .issueComment:
+            if let issueCommentEvent = try? req.content.syncDecode(IssueCommentEvent.self) {
+                delegate?.didReceive(event: issueCommentEvent)
+            }
         }
 
         return .ok
