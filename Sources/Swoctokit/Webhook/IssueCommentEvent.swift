@@ -17,7 +17,7 @@ public struct IssueCommentEvent: Decodable, WebhookEvent {
 
 public struct Issue: Decodable {
 
-    let number: Int
+    public let number: Int
 
 }
 
