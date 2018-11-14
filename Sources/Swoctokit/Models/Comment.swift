@@ -9,7 +9,7 @@ import Foundation
 
 public struct Comment: Decodable {
 
-    public let id: String
+    public let id: Int
     public let body: String
 
 }
