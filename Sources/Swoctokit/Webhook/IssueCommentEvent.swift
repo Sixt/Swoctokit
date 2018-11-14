@@ -11,6 +11,7 @@ public struct IssueCommentEvent: Decodable, WebhookEvent {
 
     public let action: String
     public let issue: Issue
+    public let repository: Repository
 
 }
 
