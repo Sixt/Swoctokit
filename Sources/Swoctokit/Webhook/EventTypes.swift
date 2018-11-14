@@ -13,4 +13,5 @@ import Foundation
 
 public enum EventType: String {
     case pullRequest = "pull_request"
+    case commitComment = "commit_comment"
 }
