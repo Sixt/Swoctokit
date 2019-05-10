@@ -1,9 +1,13 @@
+//===----------------------------------------------------------------------===//
 //
-//  Repository.swift
-//  Swoctokit
+// This source file is part of the Swoctokit open source project
 //
-//  Created by Franz Busch on 14.11.18.
+// Copyright (c) 2018 e-Sixt
+// Licensed under MIT
 //
+// See LICENSE.txt for license information
+//
+//===----------------------------------------------------------------------===//
 
 import Foundation
 
