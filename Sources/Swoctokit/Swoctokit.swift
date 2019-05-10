@@ -21,6 +21,7 @@ public class Swoctokit {
     public let contents: RepositoryContentsService
     public let pullRequests: RepositoryPullRequestService
     public let checkRuns: RepositoryCommitsCheckRunsService
+    public let branches: RepositoryBranchesBranchService
     public let teams: TeamsService
 
     public init(token: String, application: Application) throws {
@@ -31,6 +32,7 @@ public class Swoctokit {
         self.contents = RepositoryContentsService(token: token, client: client)
         self.pullRequests = RepositoryPullRequestService(token: token, client: client)
         self.checkRuns = RepositoryCommitsCheckRunsService(token: token, client: client)
+        self.branches = RepositoryBranchesBranchService(token: token, client: client)
     }
 
 }
