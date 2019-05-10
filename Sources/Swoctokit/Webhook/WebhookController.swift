@@ -43,16 +43,24 @@ final class WebhookController: RouteCollection {
 
         switch eventType {
         case .pullRequest:
-            if let pullRequestEvent = try? req.content.syncDecode(PullRequestEvent.self) {
+            if let future = try? req.content.decode(json: PullRequestEvent.self, using: .convertFromSnakeCase) {
+                let pullRequestEvent = try future.wait()
                 delegate?.didReceive(event: pullRequestEvent)
             }
         case .commitComment:
-            if let commitCommentEvent = try? req.content.syncDecode(CommitCommentEvent.self) {
+            if let future = try? req.content.decode(json: CommitCommentEvent.self, using: .convertFromSnakeCase) {
+                let commitCommentEvent = try future.wait()
                 delegate?.didReceive(event: commitCommentEvent)
             }
         case .issueComment:
-            if let issueCommentEvent = try? req.content.syncDecode(IssueCommentEvent.self) {
+            if let future = try? req.content.decode(json: IssueCommentEvent.self, using: .convertFromSnakeCase) {
+                let issueCommentEvent = try future.wait()
                 delegate?.didReceive(event: issueCommentEvent)
+            }
+        case .checkRun:
+            if let future = try? req.content.decode(json: CheckRunEvent.self, using: .convertFromSnakeCase) {
+                let checkRunEvent = try future.wait()
+                delegate?.didReceive(event: checkRunEvent)
             }
         }
 

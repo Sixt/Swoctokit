@@ -15,11 +15,4 @@ public struct Repository: Decodable {
     public let fullName: String
     public let owner: Owner
 
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case nodeId = "node_id"
-        case name
-        case fullName = "full_name"
-        case owner
-    }
 }

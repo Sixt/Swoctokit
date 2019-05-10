@@ -32,7 +32,7 @@ public class RepositoryContentsService {
                 throw error
             }
 
-            return try response.content.decode(Contents.self)
+            return try response.content.decode(json: Contents.self, using: .convertFromSnakeCase)
         }
     }
 

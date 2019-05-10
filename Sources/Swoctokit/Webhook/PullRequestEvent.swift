@@ -11,12 +11,6 @@ public struct PullRequestEvent: Decodable, WebhookEvent {
     public let number: Int
     public let pullRequest: PullRequest
 
-    private enum CodingKeys: String, CodingKey {
-        case action
-        case number
-        case pullRequest = "pull_request"
-    }
-
 }
 
 

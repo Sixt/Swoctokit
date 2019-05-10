@@ -29,7 +29,7 @@ public class RepositoryPullRequestService {
                 throw error
             }
 
-            return try response.content.decode(PullRequest.self)
+            return try response.content.decode(json: PullRequest.self, using: .convertFromSnakeCase)
         }
     }
 

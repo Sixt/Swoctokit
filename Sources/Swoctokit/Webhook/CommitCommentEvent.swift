@@ -19,11 +19,4 @@ public struct CommitComment: Decodable {
     public let body: String
     public let commitId: String
 
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case url
-        case body
-        case commitId = "commit_id"
-    }
-
 }
