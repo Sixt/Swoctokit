@@ -9,11 +9,9 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Foundation
+public struct CheckRunEvent: Decodable, WebhookEvent {
 
-public enum EventType: String {
-    case pullRequest = "pull_request"
-    case commitComment = "commit_comment"
-    case issueComment = "issue_comment"
-    case checkRun = "check_run"
+    public let action: String
+    public let checkRun: CheckRun
+
 }
