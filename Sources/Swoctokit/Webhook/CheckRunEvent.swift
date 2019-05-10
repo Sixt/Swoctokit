@@ -13,5 +13,6 @@ public struct CheckRunEvent: Decodable, WebhookEvent {
 
     public let action: String
     public let checkRun: CheckRun
+    public let repository: Repository
 
 }

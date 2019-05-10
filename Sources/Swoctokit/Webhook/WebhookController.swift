@@ -41,30 +41,30 @@ final class WebhookController: RouteCollection {
             return .ok
         }
 
-        switch eventType {
-        case .pullRequest:
-            if let future = try? req.content.decode(json: PullRequestEvent.self, using: .convertFromSnakeCase) {
-                let pullRequestEvent = try future.wait()
-                delegate?.didReceive(event: pullRequestEvent)
+        do {
+            switch eventType {
+            case .pullRequest:
+                try req.content.decode(PullRequestEvent.self, delegate: delegate)
+            case .commitComment:
+                try req.content.decode(CommitCommentEvent.self, delegate: delegate)
+            case .issueComment:
+                try req.content.decode(IssueCommentEvent.self, delegate: delegate)
+            case .checkRun:
+                try req.content.decode(CheckRunEvent.self, delegate: delegate)
             }
-        case .commitComment:
-            if let future = try? req.content.decode(json: CommitCommentEvent.self, using: .convertFromSnakeCase) {
-                let commitCommentEvent = try future.wait()
-                delegate?.didReceive(event: commitCommentEvent)
-            }
-        case .issueComment:
-            if let future = try? req.content.decode(json: IssueCommentEvent.self, using: .convertFromSnakeCase) {
-                let issueCommentEvent = try future.wait()
-                delegate?.didReceive(event: issueCommentEvent)
-            }
-        case .checkRun:
-            if let future = try? req.content.decode(json: CheckRunEvent.self, using: .convertFromSnakeCase) {
-                let checkRunEvent = try future.wait()
-                delegate?.didReceive(event: checkRunEvent)
-            }
+        } catch {
+            print(error)
         }
 
         return .ok
     }
 
+}
+
+extension ContentContainer {
+    fileprivate func decode<D: Decodable & WebhookEvent>(_ decodable: D.Type, delegate: WebhookControllerDelegate?) throws {
+        let future = try decode(json: decodable, using: .convertFromSnakeCase)
+        future.whenSuccess { delegate?.didReceive(event: $0) }
+        future.whenFailure { print($0) }
+    }
 }
