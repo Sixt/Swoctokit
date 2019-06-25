@@ -41,22 +41,30 @@ final class WebhookController: RouteCollection {
             return .ok
         }
 
-        switch eventType {
-        case .pullRequest:
-            if let pullRequestEvent = try? req.content.syncDecode(PullRequestEvent.self) {
-                delegate?.didReceive(event: pullRequestEvent)
+        do {
+            switch eventType {
+            case .pullRequest:
+                try req.content.decode(PullRequestEvent.self, delegate: delegate)
+            case .commitComment:
+                try req.content.decode(CommitCommentEvent.self, delegate: delegate)
+            case .issueComment:
+                try req.content.decode(IssueCommentEvent.self, delegate: delegate)
+            case .checkRun:
+                try req.content.decode(CheckRunEvent.self, delegate: delegate)
             }
-        case .commitComment:
-            if let commitCommentEvent = try? req.content.syncDecode(CommitCommentEvent.self) {
-                delegate?.didReceive(event: commitCommentEvent)
-            }
-        case .issueComment:
-            if let issueCommentEvent = try? req.content.syncDecode(IssueCommentEvent.self) {
-                delegate?.didReceive(event: issueCommentEvent)
-            }
+        } catch {
+            print(error)
         }
 
         return .ok
     }
 
+}
+
+extension ContentContainer {
+    fileprivate func decode<D: Decodable & WebhookEvent>(_ decodable: D.Type, delegate: WebhookControllerDelegate?) throws {
+        let future = try decode(json: decodable, using: .convertFromSnakeCase)
+        future.whenSuccess { delegate?.didReceive(event: $0) }
+        future.whenFailure { print($0) }
+    }
 }

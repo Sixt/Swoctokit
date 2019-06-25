@@ -29,8 +29,31 @@ public class RepositoryPullRequestService {
                 throw error
             }
 
-            return try response.content.decode(PullRequest.self)
+            return try response.content.decode(json: PullRequest.self, using: .convertFromSnakeCase)
         }
     }
 
+    public func mergePullRequest(owner: String, repository: String, number: Int) -> Future<Bool> {
+        let url = "\(Constants.GitHubBaseURL)/repos/\(owner)/\(repository)/pulls/\(number)/merge"
+
+        return client.put(url, headers: HTTPHeaders([("Authorization", "token \(token)")])).flatMap { response in
+            guard 200...300 ~= response.http.status.code else {
+                if let error = try? response.content.syncDecode(GitHubAPIErrorResponse.self) {
+                    throw error
+                }
+                throw Abort(.internalServerError, reason: "Merging the PR failed with: \(response.http.status.code)")
+            }
+
+            return try response.content
+                .decode(json: MergePullRequestResponse.self, using: .convertFromSnakeCase)
+                .map { $0.merged }
+        }
+    }
+
+}
+
+struct MergePullRequestResponse: Decodable {
+    let sha: String
+    let merged: Bool
+    let message: String
 }

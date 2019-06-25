@@ -1,21 +1,19 @@
+//===----------------------------------------------------------------------===//
 //
-//  File.swift
-//  Swoctokit
+// This source file is part of the Swoctokit open source project
 //
-//  Created by franz busch on 13.09.18.
+// Copyright (c) 2018 e-Sixt
+// Licensed under MIT
 //
+// See LICENSE.txt for license information
+//
+//===----------------------------------------------------------------------===//
 
 public struct PullRequestEvent: Decodable, WebhookEvent {
 
     public let action: String
     public let number: Int
     public let pullRequest: PullRequest
-
-    private enum CodingKeys: String, CodingKey {
-        case action
-        case number
-        case pullRequest = "pull_request"
-    }
 
 }
 

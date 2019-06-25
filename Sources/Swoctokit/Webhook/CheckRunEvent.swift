@@ -9,13 +9,10 @@
 //
 //===----------------------------------------------------------------------===//
 
-import Foundation
+public struct CheckRunEvent: Decodable, WebhookEvent {
 
-
-public struct Owner: Decodable {
-
-    public let login: String
-    public let id: Int
-    public let nodeId: String
+    public let action: String
+    public let checkRun: CheckRun
+    public let repository: Repository
 
 }

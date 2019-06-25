@@ -11,11 +11,13 @@
 
 import Foundation
 
-
-public struct Owner: Decodable {
-
-    public let login: String
-    public let id: Int
-    public let nodeId: String
-
+extension JSONDecoder {
+    static let convertFromSnakeCase: JSONDecoder = {
+        let decoder = JSONDecoder()
+        if #available(OSX 10.12, *) {
+            decoder.dateDecodingStrategy = .iso8601
+        }
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return decoder
+    }()
 }

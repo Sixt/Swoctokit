@@ -11,11 +11,14 @@
 
 import Foundation
 
+public struct CheckRun: Decodable {
 
-public struct Owner: Decodable {
-
-    public let login: String
     public let id: Int
-    public let nodeId: String
+    public let name: String
+    public let headSha: String
+    public let status: String
+    public let conclusion: String?
+    public let completedAt: Date?
+    public let pullRequests: [PullRequest]
 
 }

@@ -1,9 +1,13 @@
+//===----------------------------------------------------------------------===//
 //
-//  CommitCommentEvent.swift
-//  Swoctokit
+// This source file is part of the Swoctokit open source project
 //
-//  Created by Franz Busch on 14.11.18.
+// Copyright (c) 2018 e-Sixt
+// Licensed under MIT
 //
+// See LICENSE.txt for license information
+//
+//===----------------------------------------------------------------------===//
 
 public struct CommitCommentEvent: Decodable, WebhookEvent {
 
@@ -18,12 +22,5 @@ public struct CommitComment: Decodable {
     public let url: String
     public let body: String
     public let commitId: String
-
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case url
-        case body
-        case commitId = "commit_id"
-    }
 
 }
