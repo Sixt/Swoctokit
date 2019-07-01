@@ -28,6 +28,7 @@ extension Branch {
     public struct Protection: Decodable {
         public let enabled: Bool
         public let requiredStatusChecks: RequiredStatusChecks
+        public let requiredPullRequestReviews: RequiredPullRequestReviews?
     }
 }
 
@@ -35,5 +36,9 @@ extension Branch.Protection {
     public struct RequiredStatusChecks: Decodable {
         public let enforcementLevel: String
         public let contexts: [String]
+    }
+
+    public struct RequiredPullRequestReviews: Decodable {
+        public let requiredApprovingReviewCount: Int
     }
 }
