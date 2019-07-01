@@ -11,9 +11,7 @@
 
 import Foundation
 
-public struct Review: Decodable {
+public struct User: Decodable, Equatable, Hashable {
     public let id: Int
-    public let user: User
-    public let commitId: String
-    public let state: String
+    public let login: String // Username
 }
