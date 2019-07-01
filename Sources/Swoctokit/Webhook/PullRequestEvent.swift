@@ -14,6 +14,7 @@ public struct PullRequestEvent: Decodable, WebhookEvent {
     public let action: String
     public let number: Int
     public let pullRequest: PullRequest
+    public let repository: Repository
 
 }
 
