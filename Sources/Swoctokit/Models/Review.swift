@@ -9,13 +9,11 @@
 //
 //===----------------------------------------------------------------------===//
 
-public struct PullRequestEvent: Decodable, WebhookEvent {
+import Foundation
 
-    public let action: String
-    public let number: Int
-    public let pullRequest: PullRequest
-    public let repository: Repository
-
+public struct Review: Decodable {
+    public let id: Int
+    public let user: User
+    public let commitId: String
+    public let state: String
 }
-
-

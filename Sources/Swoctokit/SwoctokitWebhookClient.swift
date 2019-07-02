@@ -36,6 +36,12 @@ public protocol CheckRunEventListener: AnyObject {
 
 }
 
+public protocol PullRequestReviewEventListener: AnyObject {
+
+    func pullRequestReviewEventReceived(_ event: PullRequestReviewEvent)
+
+}
+
 public class SwoctokitWebhookClient {
 
     private let application: Application
@@ -44,6 +50,7 @@ public class SwoctokitWebhookClient {
     private var commitCommentEventListeners = [CommitCommentEventListener]()
     private var issueCommentEventListeners = [IssueCommentEventListener]()
     private var checkRunEventListeners = [CheckRunEventListener]()
+    private var pullRequestReviewEventListeners = [PullRequestReviewEventListener]()
 
     public init(_ application: Application) throws {
         self.application = application
@@ -74,6 +81,10 @@ public class SwoctokitWebhookClient {
         checkRunEventListeners.append(listener)
     }
 
+    public func addPullRequestReviewEventListener(_ listener: PullRequestReviewEventListener) {
+        pullRequestReviewEventListeners.append(listener)
+    }
+
 }
 
 extension SwoctokitWebhookClient: WebhookControllerDelegate {
@@ -88,6 +99,8 @@ extension SwoctokitWebhookClient: WebhookControllerDelegate {
             issueCommentEventReceived(event)
         case let event as CheckRunEvent:
             checkRunEventReceived(event)
+        case let event as PullRequestReviewEvent:
+            pullRequestReviewEventReceived(event)
         default:
             break
         }
@@ -107,6 +120,10 @@ extension SwoctokitWebhookClient: WebhookControllerDelegate {
 
     func checkRunEventReceived(_ event: CheckRunEvent) {
         checkRunEventListeners.forEach { $0.checkRunEventReceived(event) }
+    }
+
+    func pullRequestReviewEventReceived(_ event: PullRequestReviewEvent) {
+        pullRequestReviewEventListeners.forEach { $0.pullRequestReviewEventReceived(event) }
     }
 
 }
